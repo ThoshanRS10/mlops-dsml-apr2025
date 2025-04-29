@@ -28,4 +28,4 @@ We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING
 This project is licensed under the [MIT License](LICENSE).
 
 ---
-Happy coding!
+Happy coding! 
