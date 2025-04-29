@@ -1,4 +1,4 @@
-def bubble_sort_v1(arr):
+def bubble_sort_master(arr):
     """Bubble Sort Algorithm"""
     n = len(arr)
     for i in range(n):
@@ -71,31 +71,18 @@ def quick_sort(arr):
     right = [x for x in arr if x > pivot]
     return quick_sort(left) + middle + quick_sort(right)
 
-##Added Heap Sort
-    def heap_sort(arr):
-        """Heap Sort Algorithm"""
-        def heapify(arr, n, i):
-            largest = i
-            left = 2 * i + 1
-            right = 2 * i + 2
 
-            if left < n and arr[left] > arr[largest]:
-                largest = left
-
-            if right < n and arr[right] > arr[largest]:
-                largest = right
-
-            if largest != i:
-                arr[i], arr[largest] = arr[largest], arr[i]
-                heapify(arr, n, largest)
-
-        n = len(arr)
-
-        for i in range(n // 2 - 1, -1, -1):
-            heapify(arr, n, i)
-
-        for i in range(n - 1, 0, -1):
-            arr[i], arr[0] = arr[0], arr[i]
-            heapify(arr, i, 0)
-
+#Added Counting Sort
+def counting_sort_master(arr):
+    """Counting Sort Algorithm"""
+    if len(arr) == 0:
         return arr
+    max_val = max(arr)
+    count = [0] * (max_val + 1)
+    for num in arr:
+        count[num] += 1
+    sorted_arr = []
+    for i, cnt in enumerate(count):
+        sorted_arr.extend([i] * cnt)
+    return sorted_arr
+
