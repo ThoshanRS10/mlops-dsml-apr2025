@@ -71,6 +71,7 @@ def quick_sort(arr):
     right = [x for x in arr if x > pivot]
     return quick_sort(left) + middle + quick_sort(right)
 
+
 #Added Counting Sort
 def counting_sort_master(arr):
     """Counting Sort Algorithm"""
@@ -84,3 +85,4 @@ def counting_sort_master(arr):
     for i, cnt in enumerate(count):
         sorted_arr.extend([i] * cnt)
     return sorted_arr
+
