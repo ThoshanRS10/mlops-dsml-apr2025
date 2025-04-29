@@ -1,4 +1,4 @@
-def bubble_sort(arr):
+def bubble_sort_master(arr):
     """Bubble Sort Algorithm"""
     n = len(arr)
     for i in range(n):
@@ -70,3 +70,17 @@ def quick_sort(arr):
     middle = [x for x in arr if x == pivot]
     right = [x for x in arr if x > pivot]
     return quick_sort(left) + middle + quick_sort(right)
+
+#Added Counting Sort
+def counting_sort_master(arr):
+    """Counting Sort Algorithm"""
+    if len(arr) == 0:
+        return arr
+    max_val = max(arr)
+    count = [0] * (max_val + 1)
+    for num in arr:
+        count[num] += 1
+    sorted_arr = []
+    for i, cnt in enumerate(count):
+        sorted_arr.extend([i] * cnt)
+    return sorted_arr
