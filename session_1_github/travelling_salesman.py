@@ -1,6 +1,6 @@
 import itertools
 
-def solve_tsp_brute_force(distances):
+def solve_tsp_brute_force_e2(distances):
     """
     Solves the Travelling Salesman Problem using brute force.
     
@@ -36,6 +36,6 @@ if __name__ == "__main__":
         [15, 35, 0, 30],
         [20, 25, 30, 0]
     ]
-    min_dist, path = solve_tsp_brute_force(dummy_distances)
+    min_dist, path = solve_tsp_brute_force_e2(dummy_distances)
     print(f"Minimum Distance: {min_dist}")
     print(f"Optimal Path: {path}")
