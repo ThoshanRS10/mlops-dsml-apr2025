@@ -41,18 +41,21 @@ transmission_type = st.selectbox("Transmission Type", ["Manual", "Automatic"])
 
 seats = st.number_input("Seats", min_value=2, max_value=10, value=5, step=1)
 
-scaler = joblib.load('scaler.pkl')
+# by default, it should not ask for these many input information from the user.
+
+scaler = joblib.load('scaler.pkl') # Load the scaler object for scaling the input data
 
 def model_pred(
     year, seller_type, km_driven, fuel_type, 
     transmission_type, mileage, engine, max_power, seats
-):
+): # all these are input features from user
 	
-		# Convert categorical features using the encode dictionary
-	seller_type_enc = encode_dict["seller_type"][seller_type]
+		# Convert categorical features/inputs  using the encode dictionary
+	seller_type_enc = encode_dict["seller_type"][seller_type] # if someone selects "Dealer" from the dropdown, it will be converted to 1 using the encode dictionary
 	fuel_type_enc = encode_dict["fuel_type"][fuel_type]
 	transmission_type_enc = encode_dict["transmission_type"][transmission_type]
 
+    # convert all the features/ inputs from user into numerical format is passed into a list .
 	data = [[
 		float(year),
 		seller_type_enc,
@@ -65,16 +68,18 @@ def model_pred(
 		float(seats)
 	]]
 
-		# Scale the data
+		# Scale the data, pass it through the scaler object to scale it, from which we have loaded above (scaler.pkl) for std the numerical dataset.
+        # The scaler object is used to scale the input data in the same way as the training data was scaled.
 	data = scaler.transform(data)
 
 		# Predict
+          ## Pass the scaled data to the model to get the prediction.
 	prediction = model.predict(data)
 	return round(prediction[0], 2)
 
     
 
-
+# when the user clicks the button "Predict", the function model_pred is called with the input features from the user.
 if st.button("Predict"):
     price = model_pred(
         year, seller_type, km_driven, 
