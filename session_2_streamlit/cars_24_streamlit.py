@@ -17,7 +17,7 @@ encode_dict = {
 }
 
 # Load the model
-model = joblib.load('session_2_streamlit\cars24-car-price-model.joblib')
+model = joblib.load('session_2_streamlit/cars24-car-price-model.joblib')
 
 # add widgets for features to get input from user
 
@@ -43,7 +43,7 @@ seats = st.number_input("Seats", min_value=2, max_value=10, value=5, step=1)
 
 # by default, it should not ask for these many input information from the user.
 
-scaler = joblib.load('session_2_streamlit\scaler.pkl') # Load the scaler object for scaling the input data
+scaler = joblib.load('session_2_streamlit/scaler.pkl') # Load the scaler object for scaling the input data
 
 def model_pred(
     year, seller_type, km_driven, fuel_type, 
