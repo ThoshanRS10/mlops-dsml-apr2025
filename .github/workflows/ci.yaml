@@ -1,0 +1,140 @@
+#here we create how we want to perform the tests
+# first, we need to specify at what point this entire workflow should be triggered
+
+name: First CI Workflow
+
+
+
+on: # This section defines the events that will trigger the workflow. It will e triggered when we Push on main branch or pull request on main branch
+  # The workflow will run on push or pull request events to the master branch
+  push:
+    branches:
+      - main
+      - any_other_branch
+  pull_request:
+    branches:
+      - main
+
+
+
+# specify what we want to do when the workflow is triggered
+# In this case, we want to run a job that runs on the latest version of Ubuntu
+jobs:
+  
+  job1:
+    runs-on: ubuntu-latest # This specifies the type of machine to run the job on; 'ubuntu-latest' OS in a virtual machine provided by GitHub Actions
+    steps: # Github knows the steps that is to be executed, so it has created functions for us
+      - name: Checkout code # actions/checkout@v4, this is a function, when we rent a Ubuntu server, it will checkout i.e., it will create an entire copy of our github repo on the Ubuntu server
+        uses: actions/checkout@v4 # v4 is the version of the action we're using, not the branch of the code; https://github.com/actions/checkout 
+        # purpose of checkout code is to get the code from the repository, and put it in the runner machine
+
+      #after creating copy of our code, install Python and dependencies, and run tests
+      # we are using the latest version of Python, which is 3.9
+      - name: Install Python
+        uses: actions/setup-python@v5 # This action sets up a Python environment in the Ubuntu server
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r session_6_CI copy\requirements.txt
+
+      #The last step is to run the tests
+      # we are using pytest to run the tests, which is a testing framework for Python
+      - name: Run tests
+        run: |
+          pytest
+
+      #- uses: actions/checkout@v4
+      #- name: Login to DockerHub
+      #  uses: docker/login-action@v3 # this action logins to dockerhub
+      #  with:
+      #    username: ${{ secrets.DOCKER_USERNAME }}
+      #    password: ${{ secrets.DOCKER_PASSWORD }}
+      #- name: Build Docker Image and push to DockerHub
+      #  uses: docker/build-push-action@v6
+      #  with:
+      #    push: true
+      #    tags: shivam13juna/create-repo:latest
+
+    # push to s3 as well
+      #- name: Upload to S3
+      #  uses: jakejarvis/s3-sync-action@master
+      #  with:
+      #    args: --acl public-read --follow-symlinks --delete
+      #  env:
+      #    AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+      #    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #    SOURCE_DIR: session_7_CD/ # this is the directory you want to upload to s3
+      #    DEST_DIR: s3://your-bucket-name/ # this is the destination directory in s3
+
+
+  # job2:
+  #   needs: job1
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Login to DockerHub
+  #       uses: docker/login-action@v3 # this action logins to dockerhub
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_PASSWORD }}
+  #     - name: Build Docker Image and push to DockerHub
+  #       uses: docker/build-push-action@v6
+  #       with:
+  #         push: true
+  #         tags: shivam13juna/create-repo:latest
+
+
+#I have commented out all the following deployment code because  AWS needs to be live, which is not going to be the case every time I push for future sessions. Still, the code is completely functional. Do all the steps we have discussed in class and it will work.
+
+
+
+  #job3:
+  #  needs: job1
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v4
+
+  #    - name: Configure AWS credentials
+  #      uses: aws-actions/configure-aws-credentials@v1
+  #      with:
+  #        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #        aws-region: us-east-1
+
+  #    - name: Login to Amazon ECR
+  #      id: login-ecr
+  #      uses: aws-actions/amazon-ecr-login@v2
+
+  #    - name: Build, tag, and push image to Amazon ECR
+  #      id: build-image
+  #      env:
+  #        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+  #        ECR_REPOSITORY: ecr-cd-april25
+  #        IMAGE_TAG: ${{ github.sha }}
+  #      run: |
+  #        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+  #        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  #        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+  #    - name: Fill in the new image ID in the Amazon ECS task definition
+  #      id: task-def
+  #      uses: aws-actions/amazon-ecs-render-task-definition@v1
+  #      with:
+  #        task-definition: session_7_CD/task-cd-april25-v1-revision1.json
+  #        container-name: cd-container-april2025
+  #        image: ${{ steps.build-image.outputs.image }}
+
+  #    - name: Deploy Amazon ECS task definition
+  #      uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+  #      with:
+  #        task-definition: ${{ steps.task-def.outputs.task-definition }}
+  #        service: task-cd-april25-v1-service
+  #        cluster: cluster-cd-april25-v2
+  #        wait-for-service-stability: true
+
+
+    
