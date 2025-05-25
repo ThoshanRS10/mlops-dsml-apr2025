@@ -113,3 +113,4 @@ CMD ["python", "-m", "flask", "--app", "hello.py", "run", "--host=0.0.0.0", "--p
 #Kubernetes is a container orchestration tool, which means that it manages the containers for us. This is done by DevOps.
 
 #Dcoker Captain Udemy Course to learn more about Docker.
+
