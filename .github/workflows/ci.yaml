@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r session_6_CI copy\requirements.txt
+          pip install -r session_6_CI copy/requirements.txt
 
       #The last step is to run the tests
       # we are using pytest to run the tests, which is a testing framework for Python
