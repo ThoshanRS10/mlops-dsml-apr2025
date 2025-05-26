@@ -85,7 +85,7 @@ jobs:
         uses: docker/build-push-action@v6 # docker build -t image_name we're doing this. This action builds the docker image and pushes it to dockerhub 
         with:
           push: true
-          tags: thoshanrs10/create-repo:latest # Push it to this repo name.
+          tags: thoshan10/create-repo:latest # Push it to this repo name.
 
  
 #I have commented out all the following deployment code because  AWS needs to be live, which is not going to be the case every time I push for future sessions. Still, the code is completely functional. Do all the steps we have discussed in class and it will work.
