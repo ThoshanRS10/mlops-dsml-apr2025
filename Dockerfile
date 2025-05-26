@@ -28,20 +28,19 @@ WORKDIR /flask-loan-app
 # rn, our container is like a mini OS in which only pyhton is installed. 
 
 # we need to install the dependencies (flask, flask-cors, etc.) in the container(to the root folder).
-COPY "session_6_CI copy/requirements.txt" .
+COPY session_6_CI/requirements.txt .
 # This copies the requirements.txt file from the artefacts folder in the host machine to the current working directory in the container.
 # the . at the end means the current working directory in the container.
 # we only need this file only once, to install the dependencies, later it's useless.
 
-RUN pip install -r 'session_6_CI copy/requirements.txt' 
-
+RUN pip install -r requirements.txt
 # This command upgrades pip to the latest version.
 # pip is the package manager for Python, and it is used to install and manage Python packages.
 # This command installs the Python packages listed in the requirements.txt file.
 # RUN is used to run a command in the container.
 # This is done in a single layer, so the image size is small.
 
-COPY 'session_6_CI copy/' /flask-loan-app/
+COPY session_6_CI/ /flask-loan-app/
 # This copies the entire current directory on our host machine to the /flask-loan-app directory in the container.
 # Copies all the files and folders of session_4 (of current dir) to the flask loan app folder in the container.
 
