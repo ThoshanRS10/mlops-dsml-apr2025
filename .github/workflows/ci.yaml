@@ -10,7 +10,6 @@ on: # This section defines the events that will trigger the workflow. It will e 
   push:
     branches:
       - main
-      - any_other_branch
   pull_request:
     branches:
       - main
