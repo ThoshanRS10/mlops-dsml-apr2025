@@ -126,9 +126,9 @@ jobs:
        id: task-def
        uses: aws-actions/amazon-ecs-render-task-definition@v1
        with:
-         task-definition: session_7_CD\task-cd-apr25-v2-revision2.json # this is the json file that defines the task definition for ECS
+         task-definition: session_7_CD/task-cd-apr25-v2-revision2.json # this is the json file that defines the task definition for ECS
          container-name: cd-container-apr25-v2 # this is the name of the container in the task definition
-         container-image: ${{ steps.build-image.outputs.image }} 
+         #container-image: ${{ steps.build-image.outputs.image }} 
          image: ${{ steps.build-image.outputs.image }}
 
      - name: Deploy Amazon ECS task definition
