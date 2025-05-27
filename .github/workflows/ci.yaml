@@ -136,7 +136,7 @@ jobs:
        with:
          task-definition: ${{ steps.task-def.outputs.task-definition }} # this is the task definition that we created in the previous step
          service: task-cd-apr25-v2-service # this is the service that we want to deploy the task definition to
-         cluster: cd-container-apr25-v2
+         cluster: cluster-cd-apr25-v3 # this is the cluster that we want to deploy the task definition to
          wait-for-service-stability: true
 
 
