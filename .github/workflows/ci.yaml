@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r 'session_6_CI copy/requirements.txt'
+          pip install -r session_6_CI/requirements.txt
 
       #The last step is to run the tests
       # we are using pytest to run the tests, which is a testing framework for Python
@@ -85,56 +85,60 @@ jobs:
         uses: docker/build-push-action@v6 # docker build -t image_name we're doing this. This action builds the docker image and pushes it to dockerhub 
         with:
           push: true
-          tags: thoshanrs10/create-repo:latest # Push it to this repo name.
+          tags: thoshan10/create-repo:latest # Push it to this repo name.
 
  
 #I have commented out all the following deployment code because  AWS needs to be live, which is not going to be the case every time I push for future sessions. Still, the code is completely functional. Do all the steps we have discussed in class and it will work.
 
 
 
-  #job3:
-  #  needs: job1
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - uses: actions/checkout@v4
+  job3:
+   needs: job1 #after job1 is completed, job 2 and 3 will run in parallel
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v4 #creating copy of our repo on the ubuntu virtual server
 
-  #    - name: Configure AWS credentials
-  #      uses: aws-actions/configure-aws-credentials@v1
-  #      with:
-  #        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #        aws-region: us-east-1
+     - name: Configure AWS credentials
+       uses: aws-actions/configure-aws-credentials@v1 #this function is given by amazon that is compatible with github actions.
+       with:
+         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         aws-region: us-west-2 # This is the region where your AWS resources are located; you can change it to your desired region
 
-  #    - name: Login to Amazon ECR
-  #      id: login-ecr
-  #      uses: aws-actions/amazon-ecr-login@v2
+     - name: Login to Amazon ECR
+       id: login-ecr
+       uses: aws-actions/amazon-ecr-login@v2 # aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 984105454670.dkr.ecr.us-west-2.amazonaws.com
+       # this is done by this action, which logs in to Amazon ECR (Elastic Container Registry) so that we can push our Docker images there
 
-  #    - name: Build, tag, and push image to Amazon ECR
-  #      id: build-image
-  #      env:
-  #        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-  #        ECR_REPOSITORY: ecr-cd-april25
-  #        IMAGE_TAG: ${{ github.sha }}
-  #      run: |
-  #        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-  #        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-  #        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+     - name: Build, tag, and push image to Amazon ECR
+       id: build-image
+       env:
+         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+         ECR_REPOSITORY: ecr-cd-apr25-v2 # we dont touch anything here, except the repo name.
+         IMAGE_TAG: ${{ github.sha }} 
+       run: | # now it'll automatically build the image, tag it with the commit SHA, and push it to ECR
+         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-  #    - name: Fill in the new image ID in the Amazon ECS task definition
-  #      id: task-def
-  #      uses: aws-actions/amazon-ecs-render-task-definition@v1
-  #      with:
-  #        task-definition: session_7_CD/task-cd-april25-v1-revision1.json
-  #        container-name: cd-container-april2025
-  #        image: ${{ steps.build-image.outputs.image }}
+      # create a new task definition revision in Amazon ECS ased on the json file
+     - name: Fill in the new image ID in the Amazon ECS task definition
+       id: task-def
+       uses: aws-actions/amazon-ecs-render-task-definition@v1
+       with:
+         task-definition: session_7_CD\task-cd-apr25-v2-revision2.json # this is the json file that defines the task definition for ECS
+         container-name: cd-container-apr25-v2 # this is the name of the container in the task definition
+         container-image: ${{ steps.build-image.outputs.image }} 
+         image: ${{ steps.build-image.outputs.image }}
 
-  #    - name: Deploy Amazon ECS task definition
-  #      uses: aws-actions/amazon-ecs-deploy-task-definition@v2
-  #      with:
-  #        task-definition: ${{ steps.task-def.outputs.task-definition }}
-  #        service: task-cd-april25-v1-service
-  #        cluster: cluster-cd-april25-v2
-  #        wait-for-service-stability: true
+     - name: Deploy Amazon ECS task definition
+       uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+       with:
+         task-definition: ${{ steps.task-def.outputs.task-definition }} # this is the task definition that we created in the previous step
+         service: task-cd-apr25-v2-service # this is the service that we want to deploy the task definition to
+         cluster: cd-container-apr25-v2
+         wait-for-service-stability: true
 
 
     
+ 
