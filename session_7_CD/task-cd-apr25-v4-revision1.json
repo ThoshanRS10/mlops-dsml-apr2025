@@ -1,20 +1,20 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-west-2:984105454670:task-definition/task-cd-apr25-v2:2",
+    "taskDefinitionArn": "arn:aws:ecs:us-west-2:287103448109:task-definition/task-cd-apr25-v4:1",
     "containerDefinitions": [
         {
-            "name": "cd-container-apr25-v2",
-            "image": "984105454670.dkr.ecr.us-west-2.amazonaws.com/ecr-cd-apr25-v2:latest",
+            "name": "cd-container-apr25-v4",
+            "image": "287103448109.dkr.ecr.us-west-2.amazonaws.com/cd-apr25-v4:latest",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "cd-container-apr25-v2-80-tcp",
+                    "name": "cd-container-apr25-v4-80-tcp",
                     "containerPort": 80,
                     "hostPort": 80,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 },
                 {
-                    "name": "cd-container-apr25-v2-8000-tcp",
+                    "name": "cd-container-apr25-v4-8000-tcp",
                     "containerPort": 8000,
                     "hostPort": 8000,
                     "protocol": "tcp"
@@ -29,10 +29,10 @@
             "systemControls": []
         }
     ],
-    "family": "task-cd-apr25-v2",
-    "executionRoleArn": "arn:aws:iam::984105454670:role/ecsTaskExecutionRole",
+    "family": "task-cd-apr25-v4",
+    "executionRoleArn": "arn:aws:iam::287103448109:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 2,
+    "revision": 1,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -63,8 +63,8 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2025-05-27T10:56:54.988Z",
-    "registeredBy": "arn:aws:iam::984105454670:user/devops_user_5894841_39450",
+    "registeredAt": "2025-05-29T13:35:05.461Z",
+    "registeredBy": "arn:aws:iam::287103448109:user/devops_user_5894841_40188",
     "enableFaultInjection": false,
     "tags": []
 }

@@ -115,7 +115,7 @@ jobs:
        id: build-image
        env:
          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-         ECR_REPOSITORY: ecr-cd-apr25-v2 # we dont touch anything here, except the repo name.
+         ECR_REPOSITORY: cd-apr25-v4 # we dont touch anything here, except the repo name.
          IMAGE_TAG: ${{ github.sha }} 
        run: | # now it'll automatically build the image, tag it with the commit SHA, and push it to ECR
          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
@@ -127,8 +127,8 @@ jobs:
        id: task-def
        uses: aws-actions/amazon-ecs-render-task-definition@v1
        with:
-         task-definition: session_7_CD/task-cd-apr25-v2-revision2.json # this is the json file that defines the task definition for ECS
-         container-name: cd-container-apr25-v2 # this is the name of the container in the task definition
+         task-definition: session_7_CD/task-cd-apr25-v4-revision1.json # this is the json file that defines the task definition for ECS
+         container-name: cd-container-apr25-v4 # this is the name of the container in the task definition
          #container-image: ${{ steps.build-image.outputs.image }} 
          image: ${{ steps.build-image.outputs.image }}
 
@@ -136,8 +136,8 @@ jobs:
        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
        with:
          task-definition: ${{ steps.task-def.outputs.task-definition }} # this is the task definition that we created in the previous step
-         service: task-cd-apr25-v2-service # this is the service that we want to deploy the task definition to
-         cluster: cluster-cd-apr25-v3 # this is the cluster that we want to deploy the task definition to
+         service: task-cd-apr25-v4-service-6hbt8ebo  # this is the service that we want to deploy the task definition to
+         cluster: cluster-cd-apr25-v4a # this is the cluster that we want to deploy the task definition to
          wait-for-service-stability: true
 
 
