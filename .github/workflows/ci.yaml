@@ -5,11 +5,12 @@ name: First CI Workflow
 
 
 
-on: # This section defines the events that will trigger the workflow. It will e triggered when we Push on main branch or pull request on main branch
-  # The workflow will run on push or pull request events to the master branch
+on: # This section defines the events that will trigger the workflow. It will e triggered when we Push on main branch or pull request on main branch and not on any other branch.
+  # The workflow will run on push or pull request events to the main branch
   push:
     branches:
-      - main
+      - main 
+    # - any other branch
   pull_request:
     branches:
       - main
