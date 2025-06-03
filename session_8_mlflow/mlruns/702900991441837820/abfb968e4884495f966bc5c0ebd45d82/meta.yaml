@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/DSML/MLOPS/mlops-dsml-apr2025/session_8_mlflow/mlruns/702900991441837820/abfb968e4884495f966bc5c0ebd45d82/artifacts
+end_time: 1748938513169
+entry_point_name: ''
+experiment_id: '702900991441837820'
+lifecycle_stage: active
+run_id: abfb968e4884495f966bc5c0ebd45d82
+run_name: hyperparameter_run_6
+run_uuid: abfb968e4884495f966bc5c0ebd45d82
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748938494292
+status: 3
+tags: []
+user_id: thosh

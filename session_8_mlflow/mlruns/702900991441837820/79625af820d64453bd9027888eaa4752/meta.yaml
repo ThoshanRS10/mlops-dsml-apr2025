@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/DSML/MLOPS/mlops-dsml-apr2025/session_8_mlflow/mlruns/702900991441837820/79625af820d64453bd9027888eaa4752/artifacts
+end_time: 1748868794037
+entry_point_name: ''
+experiment_id: '702900991441837820'
+lifecycle_stage: active
+run_id: 79625af820d64453bd9027888eaa4752
+run_name: loan_status run5
+run_uuid: 79625af820d64453bd9027888eaa4752
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748868792689
+status: 3
+tags: []
+user_id: thosh

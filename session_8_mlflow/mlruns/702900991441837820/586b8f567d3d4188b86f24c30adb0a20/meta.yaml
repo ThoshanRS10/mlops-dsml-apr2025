@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/DSML/MLOPS/mlops-dsml-apr2025/session_8_mlflow/mlruns/702900991441837820/586b8f567d3d4188b86f24c30adb0a20/artifacts
+end_time: 1748938698711
+entry_point_name: ''
+experiment_id: '702900991441837820'
+lifecycle_stage: active
+run_id: 586b8f567d3d4188b86f24c30adb0a20
+run_name: KNN
+run_uuid: 586b8f567d3d4188b86f24c30adb0a20
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748938680308
+status: 3
+tags: []
+user_id: thosh

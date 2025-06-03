@@ -1,0 +1,6 @@
+artifact_location: file:///d:/DSML/MLOPS/mlops-dsml-apr2025/session_8_mlflow/mlruns/702900991441837820
+creation_time: 1748866864745
+experiment_id: '702900991441837820'
+last_update_time: 1748866864745
+lifecycle_stage: active
+name: loan_status

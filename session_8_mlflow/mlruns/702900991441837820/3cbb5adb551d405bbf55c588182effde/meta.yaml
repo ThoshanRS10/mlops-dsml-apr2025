@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/DSML/MLOPS/mlops-dsml-apr2025/session_8_mlflow/mlruns/702900991441837820/3cbb5adb551d405bbf55c588182effde/artifacts
+end_time: 1748868636455
+entry_point_name: ''
+experiment_id: '702900991441837820'
+lifecycle_stage: active
+run_id: 3cbb5adb551d405bbf55c588182effde
+run_name: ambitious-shrimp-212
+run_uuid: 3cbb5adb551d405bbf55c588182effde
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748868617266
+status: 3
+tags: []
+user_id: thosh

@@ -1,0 +1,15 @@
+artifact_uri: file:///d:/DSML/MLOPS/mlops-dsml-apr2025/session_8_mlflow/mlruns/702900991441837820/d51c3455b3a6457da830dc68975edf7a/artifacts
+end_time: 1748870699679
+entry_point_name: ''
+experiment_id: '702900991441837820'
+lifecycle_stage: active
+run_id: d51c3455b3a6457da830dc68975edf7a
+run_name: debonair-midge-44
+run_uuid: d51c3455b3a6457da830dc68975edf7a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748870666574
+status: 3
+tags: []
+user_id: thosh
