@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/ThoshanRS10/mlops-dsml-apr2025/branch/main/graph/badge.svg?token=DPDS4AE2UI)](https://codecov.io/gh/ThoshanRS10/mlops-dsml-apr2025)
+
 # MLOps for DSML (April 2025)
 
 Welcome to the **MLOps for DSML** repository! This project is designed to explore and implement Machine Learning Operations (MLOps) practices for Data Science and Machine Learning workflows. The goal is to streamline the development, deployment, and monitoring of machine learning models in production environments.
