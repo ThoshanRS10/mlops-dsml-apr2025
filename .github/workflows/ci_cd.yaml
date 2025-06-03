@@ -93,52 +93,52 @@ jobs:
 
 
 
-  job3:
-   needs: job1 #after job1 is completed, job 2 and 3 will run in parallel
-   runs-on: ubuntu-latest
-   steps:
-     - uses: actions/checkout@v4 #creating copy of our repo on the ubuntu virtual server
+  # job3:
+  #  needs: job1 #after job1 is completed, job 2 and 3 will run in parallel
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v4 #creating copy of our repo on the ubuntu virtual server
 
-     - name: Configure AWS credentials
-       uses: aws-actions/configure-aws-credentials@v1 #this function is given by amazon that is compatible with github actions.
-       with:
-         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-         aws-region: us-west-2 # This is the region where your AWS resources are located; you can change it to your desired region
+  #    - name: Configure AWS credentials
+  #      uses: aws-actions/configure-aws-credentials@v1 #this function is given by amazon that is compatible with github actions.
+  #      with:
+  #        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #        aws-region: us-west-2 # This is the region where your AWS resources are located; you can change it to your desired region
 
-     - name: Login to Amazon ECR
-       id: login-ecr
-       uses: aws-actions/amazon-ecr-login@v2 # aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 984105454670.dkr.ecr.us-west-2.amazonaws.com
-       # this is done by this action, which logs in to Amazon ECR (Elastic Container Registry) so that we can push our Docker images there
+  #    - name: Login to Amazon ECR
+  #      id: login-ecr
+  #      uses: aws-actions/amazon-ecr-login@v2 # aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 984105454670.dkr.ecr.us-west-2.amazonaws.com
+  #      # this is done by this action, which logs in to Amazon ECR (Elastic Container Registry) so that we can push our Docker images there
 
-     - name: Build, tag, and push image to Amazon ECR
-       id: build-image
-       env:
-         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-         ECR_REPOSITORY: cd-apr25-v4 # we dont touch anything here, except the repo name.
-         IMAGE_TAG: ${{ github.sha }} 
-       run: | # now it'll automatically build the image, tag it with the commit SHA, and push it to ECR
-         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+  #    - name: Build, tag, and push image to Amazon ECR
+  #      id: build-image
+  #      env:
+  #        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+  #        ECR_REPOSITORY: cd-apr25-v4 # we dont touch anything here, except the repo name.
+  #        IMAGE_TAG: ${{ github.sha }} 
+  #      run: | # now it'll automatically build the image, tag i t with the commit SHA, and push it to ECR
+  #        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+  #        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  #        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      # create a new task definition revision in Amazon ECS ased on the json file
-     - name: Fill in the new image ID in the Amazon ECS task definition
-       id: task-def
-       uses: aws-actions/amazon-ecs-render-task-definition@v1
-       with:
-         task-definition: session_7_CD/task-cd-apr25-v4-revision1.json # this is the json file that defines the task definition for ECS
-         container-name: cd-container-apr25-v4 # this is the name of the container in the task definition
-         #container-image: ${{ steps.build-image.outputs.image }} 
-         image: ${{ steps.build-image.outputs.image }}
+  #     # create a new task definition revision in Amazon ECS ased on the json file
+  #    - name: Fill in the new image ID in the Amazon ECS task definition
+  #      id: task-def
+  #      uses: aws-actions/amazon-ecs-render-task-definition@v1
+  #      with:
+  #        task-definition: session_7_CD/task-cd-apr25-v4-revision1.json # this is the json file that defines the task definition for ECS
+  #        container-name: cd-container-apr25-v4 # this is the name of the container in the task definition
+  #        #container-image: ${{ steps.build-image.outputs.image }} 
+  #        image: ${{ steps.build-image.outputs.image }}
 
-     - name: Deploy Amazon ECS task definition
-       uses: aws-actions/amazon-ecs-deploy-task-definition@v2
-       with:
-         task-definition: ${{ steps.task-def.outputs.task-definition }} # this is the task definition that we created in the previous step
-         service: task-cd-apr25-v4-service-6hbt8ebo  # this is the service that we want to deploy the task definition to
-         cluster: cluster-cd-apr25-v4a # this is the cluster that we want to deploy the task definition to
-         wait-for-service-stability: true
+  #    - name: Deploy Amazon ECS task definition
+  #      uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+  #      with:
+  #        task-definition: ${{ steps.task-def.outputs.task-definition }} # this is the task definition that we created in the previous step
+  #        service: task-cd-apr25-v4-service-6hbt8ebo  # this is the service that we want to deploy the task definition to
+  #        cluster: cluster-cd-apr25-v4a # this is the cluster that we want to deploy the task definition to
+  #        wait-for-service-stability: true
 
 
     
